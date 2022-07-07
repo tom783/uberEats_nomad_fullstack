@@ -30,3 +30,18 @@
 ```bash
 npm run start:dev
 ```
+
+### 내용 정리
+## typeORM
+- js, ts를 활용해 다양한 플랫폼(Nodejs, ReactNative, Expo ...)에서 동작한다
+- database를 활용하는 다양한 프로젝트에서 유용한 추가 기능과 최신 js를 제공한다
+- 
+
+### typeORM - Data Mapper 패턴
+- repository라고 부르는 별도의 클래스에서 모든 쿼리 메서드를 정의한다
+- repository를 사용하여 database를 컨트롤하는 메서드를 사용할 수 있다
+- Model 방식 대신 repository를 통해 database에 접근한다
+
+### typeORM - Active Record 패턴
+- Model(entity)에 모든 쿼리 메서드를 정의한다.
+- Model(entity)는 BaseEntity로 확장하여 database를 컨트롤하는 메서드를 사용할 수 있다

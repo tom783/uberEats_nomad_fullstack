@@ -11,6 +11,7 @@ import { Restaurant } from './restaurants/entities/restaurant.entity';
 
 @Module({
   imports: [
+    // nestjs
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: process.env.NODE_ENV === 'dev' ? '.dev.env' : '.test.env',
@@ -24,6 +25,7 @@ import { Restaurant } from './restaurants/entities/restaurant.entity';
         DATABASE_NAME: Joi.string().required(),
       }),
     }),
+    //typeOrm
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DATABASE_HOST,
@@ -35,9 +37,13 @@ import { Restaurant } from './restaurants/entities/restaurant.entity';
       synchronize: process.env.NODE_ENV !== 'prod',
       logging: true,
     }),
+    // GraphQLModule.forRoot = new ApolloServer
+    // GraphQLModule.forRoot({ typePath : ['graphql 파일']}) -> schema first pattern
+    // 현재 아래는 code first pattern
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      autoSchemaFile: true,
+      // autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
     RestaurantsModule,
   ],

@@ -24,7 +24,4 @@ import { Restaurant } from '../entities/restaurant.entity';
 // }
 
 @InputType()
-export class CreateRestaurantDto extends OmitType(Restaurant, [
-  'id',
-  'categoryName',
-]) {}
+export class CreateRestaurantDto extends OmitType(Restaurant, ['id']) {}

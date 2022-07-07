@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateRestaurantDto } from './dtos/create-restaurant.dto';
+import { UpdateRestaurantDto } from './dtos/update-restaurant.dto';
 import { Restaurant } from './entities/restaurant.entity';
 
 @Injectable()
@@ -17,7 +18,13 @@ export class RestaurantService {
   createRestaurant(
     createRestaurantDto: CreateRestaurantDto,
   ): Promise<Restaurant> {
+    // create는 dto를 활용해 new Repository 인스턴스 생성
     const newRestaurant = this.restaurants.create(createRestaurantDto);
+    // DB에 dto 스키마를 기반으로 생성한 Repository 인스턴스를 저장
     return this.restaurants.save(newRestaurant);
+  }
+
+  updateRestaurant({ id, data }: UpdateRestaurantDto) {
+    return this.restaurants.update(id, { ...data });
   }
 }
