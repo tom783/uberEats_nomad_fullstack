@@ -1,9 +1,12 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
-import { CreateAccountInput, CreateAccountOutput } from './dto/users.dto';
+import {
+  CreateAccountInput,
+  CreateAccountOutput,
+} from './dto/create-account.dto';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
 
-@Resolver((returns) => User)
+@Resolver((of) => User)
 export class UsersResolver {
   constructor(private readonly userService: UsersService) {}
   @Query((returns) => Boolean)
@@ -12,5 +15,23 @@ export class UsersResolver {
   }
 
   @Mutation((returns) => CreateAccountOutput)
-  createAccount(@Args('input') createAccountInput: CreateAccountInput) {}
+  async createAccount(
+    @Args('input') createAccountInput: CreateAccountInput,
+  ): Promise<CreateAccountOutput> {
+    try {
+      const { ok, error } = await this.userService.createAccount(
+        createAccountInput,
+      );
+
+      return {
+        ok,
+        error,
+      };
+    } catch (e) {
+      return {
+        ok: false,
+        error: e,
+      };
+    }
+  }
 }

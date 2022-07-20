@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateAccountInput } from './dto/users.dto';
+import { CreateAccountInput } from './dto/create-account.dto';
 import { User } from './entities/user.entity';
 
 @Injectable()
@@ -10,19 +10,29 @@ export class UsersService {
     @InjectRepository(User) private readonly users: Repository<User>,
   ) {}
 
-  async createAccount({ email, password, role }: CreateAccountInput) {
+  async createAccount({
+    email,
+    password,
+    role,
+  }: CreateAccountInput): Promise<{ ok: boolean; error?: string }> {
     try {
       //@ts-ignore
       const exists = await this.users.findOne({ where: { email } });
 
       if (exists) {
-        return;
+        return {
+          ok: false,
+          error: 'There is a user with that email already',
+        };
       }
-      const newAccount = this.users.create({ email, password });
+      const newAccount = this.users.create({ email, password, role });
       await this.users.save(newAccount);
-      return true;
+      return { ok: true };
     } catch (e) {
-      return false;
+      return {
+        ok: false,
+        error: "Couldn't create account",
+      };
     }
   }
 }

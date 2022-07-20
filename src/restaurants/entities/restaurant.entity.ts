@@ -15,7 +15,7 @@ export class Restaurant {
   @Field((type) => String)
   @Column()
   @IsString()
-  name: String;
+  name: string;
 
   @Field((type) => Boolean, {
     defaultValue: true,
@@ -23,21 +23,21 @@ export class Restaurant {
   @IsOptional()
   @Column({ nullable: true })
   @IsBoolean()
-  isVegan: Boolean;
+  isVegan: boolean;
 
   @Field((type) => String, { defaultValue: 'Daegu' })
   @Column({ default: 'Daegu' })
   @IsString()
-  address: String;
+  address: string;
 
   @Field((type) => String)
   @Column()
   @IsString()
   @Length(5, 10)
-  ownerName: String;
+  ownerName: string;
 
   @Field((type) => String)
   @Column()
   @IsString()
-  categoryName: String;
+  categoryName: string;
 }
